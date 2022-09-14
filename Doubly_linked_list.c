@@ -17,6 +17,7 @@ void del_end();
 void del_any_point();
 void display_from_front();
 void display_from_end();
+int length();
 
 int main()
 {
@@ -79,7 +80,7 @@ void add_front()
     }
     head = new_node;
 }
-add_end()
+void add_end()
 {
     int value;
     printf("\nEnter a value to be added : ");
@@ -102,7 +103,7 @@ add_end()
         new_node->l_link = h;
     }
 }
-add_any_point()
+void add_any_point()
 {
     int pos,value,i;
     printf("\nEnter the postion to add : ");
@@ -115,37 +116,38 @@ add_any_point()
     new_node->data = value;
     new_node->l_link = NULL;
     new_node->r_link = NULL;
-    if(head == NULL && pos!=1)
-        printf(" INVALID CHOICE , LIST DON'T EXIST ");
-    else if(pos<1)
-        printf("WRONG POSITION");
-    else if(pos==1)
+    if(pos>=1 && pos<=length())
     {
-        new_node->r_link=head;
-        head = new_node;
-    }
-    else
-    {
-        for(i=1;i<pos-1;i++)
-            h = h->r_link;
-        if(h->r_link == NULL)
+        if(pos==1)
         {
-            new_node->r_link = h->r_link;
-            new_node->l_link = h;
-            h->r_link = new_node;
+            new_node->r_link=head;
+            head = new_node;
         }
         else
         {
-            new_node->r_link = h->r_link;
-            new_node->l_link = h;
-            h->r_link = new_node;
-            h = new_node->r_link;
-            h->l_link = new_node;
+            for(i=1;i<pos-1;i++)
+                h = h->r_link;
+            if(h->r_link == NULL)
+            {
+                new_node->r_link = h->r_link;
+                new_node->l_link = h;
+                h->r_link = new_node;
+            }
+            else
+            {
+                new_node->r_link = h->r_link;
+                new_node->l_link = h;
+                h->r_link = new_node;
+                h = new_node->r_link;
+                h->l_link = new_node;
+            }
         }
     }
+    else
+        printf("\nWRONG POSITION");
 }
 
-del_front()
+void del_front()
 {
     n *h=head;
     if(head==NULL)
@@ -165,7 +167,7 @@ del_front()
     }
 }
 
-del_end()
+void del_end()
 {
     n *h=head ,*k;
     if(head==NULL)
@@ -190,55 +192,60 @@ del_end()
     }
 }
 
-del_any_point()
+void del_any_point()
 {
     n *h=head ,*k;
     int i,pos;
     printf("\n enter the postion to be deleted : ");
     scanf("%d",&pos);
-    if(head==NULL || pos<1)
+    if(head==NULL)
             printf("\tNO DELETION , EMPTY LIST");
-    else if(pos==1)
+    else if(pos>=1 && pos<length())
     {
-        if(head->r_link == NULL)
+        if(pos==1)
         {
-            printf("\n\t%d deleted ",head->data);
-            head = head->r_link;
-            free(h);
+            if(head->r_link == NULL)
+            {
+                printf("\n\t%d deleted ",head->data);
+                head = head->r_link;
+                free(h);
+            }
+            else
+            {
+                printf("\n\t%d deleted ",h->data);
+                head = head->r_link;
+                head->l_link = NULL;
+                free(h);
+            }
         }
         else
         {
+            for(i=1;i<pos;i++)
+            {
+                k = h;
+                h = h->r_link;
+            }
             printf("\n\t%d deleted ",h->data);
-            head = head->r_link;
-            head->l_link = NULL;
-            free(h);
+            if(h->r_link == NULL)
+            {
+                k->r_link = h->r_link;
+                h->l_link = NULL;
+                free(h);
+            }
+            else
+            {
+                k->r_link = h->r_link;
+                free(h);
+                h = k->r_link;
+                h->l_link = k;
+            }
         }
     }
     else
-    {
-        for(i=1;i<pos;i++)
-        {
-            k = h;
-            h = h->r_link;
-        }
-        printf("\n\t%d deleted ",h->data);
-        if(h->r_link == NULL)
-        {
-            k->r_link = h->r_link;
-            h->l_link = NULL;
-            free(h);
-        }
-        else
-        {
-            k->r_link = h->r_link;
-            free(h);
-            h = k->r_link;
-            h->l_link = k;
-        }
-    }
+        printf("\nWRONG POSITION");
 }
 
-display_from_front()
+void display_from_front()
 {
     n *h=head;
     if(h==NULL)
@@ -255,7 +262,7 @@ display_from_front()
     }
 }
 
-display_from_end()
+void display_from_end()
 {
     n *h=head;
     if(h==NULL)
@@ -272,4 +279,24 @@ display_from_end()
         }
         printf("\t%d",h->data);
     }
+}
+
+int length()
+{
+    n *h = head;
+    int count = 0;
+    if(h == NULL)
+        count = 0;
+    else if(h->r_link == NULL)
+        count = 1;
+    else
+    {
+        while(h!=NULL)
+        {
+            h = h->r_link;
+        count++;
+        }
+    }
+    count++;
+    return count;
 }
