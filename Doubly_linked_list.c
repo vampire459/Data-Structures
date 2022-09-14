@@ -216,7 +216,7 @@ del_any_point()
     }
     else
     {
-        for(i=1;i<=pos-1;i++)
+        for(i=1;i<pos;i++)
         {
             k = h;
             h = h->r_link;
