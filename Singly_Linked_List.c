@@ -15,6 +15,7 @@ void del_front();
 void del_end();
 void del_any_point();
 void display();
+int length();
 
 int main()
 {
@@ -100,22 +101,23 @@ void add_any_point()
     new_node = (n *)malloc(sizeof(n));
     new_node->data=value;
     new_node->link=NULL;
-    if(head == NULL && pos!=1)
-        printf(" INVALID CHOICE , LIST DON'T EXIST ");
-    else if(pos<1)
-        printf("WRONG POSITION");
-    else if(pos==1)
+    if(pos>=1 && pos<=length())
     {
-        new_node->link=head;
-        head = new_node;
+        if(pos==1)
+        {
+            new_node->link=head;
+            head = new_node;
+        }
+        else
+        {
+            for(i=1;i<pos-1;i++)
+                h = h->link;
+            new_node->link = h->link;
+            h->link = new_node;
+        }
     }
     else
-    {
-        for(i=1;i<pos-1;i++)
-            h = h->link;
-        new_node->link = h->link;
-        h->link = new_node;
-    }
+        printf("\nWRONG POSITION");
 }
 
 void del_front()
@@ -134,7 +136,7 @@ void del_front()
 void del_end()
 {
     n *h=head ,*k;
-    if(head==NULL)
+    if(head == NULL)
         printf("\tNO DELETION , EMPTY LIST");
     else if(h->link == NULL)
     {
@@ -161,25 +163,30 @@ void del_any_point()
         int i,pos;
         printf("\n enter the postion to be deleted : ");
         scanf("%d",&pos);
-        if(head==NULL || pos<1)
+        if(head==NULL)
             printf("\tNO DELETION , EMPTY LIST");
-        else if(pos==1)
+        else if(pos>=1 && pos<length())
         {
-            printf("\n\t%d deleted ",h->data);
-            head = head->link;
-            free(h);
+            if(pos==1)
+            {
+                printf("\n\t%d deleted ",h->data);
+                head = head->link;
+                free(h);
+            }
+            else
+            {
+                for(i=1;i<pos;i++)
+                {
+                    k = h;
+                    h = h->link;
+                }
+                printf("\n\t%d deleted ",h->data);
+                k ->link = h->link;
+                free(h);
+            }
         }
         else
-        {
-            for(i=1;i<pos;i++)
-            {
-                k = h;
-                h = h->link;
-            }
-            printf("\n\t%d deleted ",h->data);
-            k ->link = h->link;
-            free(h);
-        }
+            printf("\nWRONG POSITION");
 }
 
 void display()
@@ -197,4 +204,24 @@ void display()
         }
         printf("\t%d",h->data);
     }
+}
+
+int length()
+{
+    n *h = head;
+    int count = 0;
+    if(h == NULL)
+        count = 0;
+    else if(h->link == NULL)
+        count = 1;
+    else
+    {
+        while(h!=NULL)
+        {
+            h = h->link;
+        count++;
+        }
+    }
+    count++;
+    return count;
 }
