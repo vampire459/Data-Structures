@@ -290,13 +290,11 @@ int length()
     else if(h->r_link == NULL)
         count = 1;
     else
-    {
         while(h!=NULL)
         {
             h = h->r_link;
-        count++;
+            count++;
         }
-    }
     count++;
     return count;
 }
