@@ -136,6 +136,12 @@ void del_end()
     n *h=head ,*k;
     if(head==NULL)
         printf("\tNO DELETION , EMPTY LIST");
+    else if(h->link == NULL)
+    {
+        head = NULL;
+        printf("\n\t%d deleted ",h->data);
+        free(h);
+    }
     else
     {
         while(h->link!=NULL)
