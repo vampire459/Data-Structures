@@ -215,13 +215,11 @@ int length()
     else if(h->link == NULL)
         count = 1;
     else
-    {
         while(h!=NULL)
         {
             h = h->link;
-        count++;
+            count++;
         }
-    }
     count++;
     return count;
 }
