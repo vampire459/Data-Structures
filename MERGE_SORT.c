@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<conio.h>
 
 void merge(int arr[],int lb,int mid,int ub)
 {
