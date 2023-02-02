@@ -10,6 +10,7 @@ n *head = NULL;
 
 void add_front();
 void add_end();
+void add_middle();
 void add_any_point();
 void del_front();
 void del_end();
@@ -22,7 +23,7 @@ int main()
     int ch;
     for(;;)
     {
-        printf(" \n\t1.add_front\t2.add_end\t3.add_any-point\n\t4.display\n\t5.del_front\t6.del_end\t7.del_any_position\n\t8.exit");
+        printf(" \n\t1.add_front\t2.add_end\t3.add_middle\t4.add_any-point\n\t5.display\n\t6.del_front\t7.del_end\t8.del_any_position\n\t9.exit");
         printf("\n Enter your choice : ");
         scanf("%d",&ch);
         switch(ch)
@@ -34,21 +35,24 @@ int main()
             add_end();
             break;
         case 3 :
-            add_any_point();
+            add_middle();
             break;
         case 4 :
+            add_any_point();
+            break;
+        case 5 :
             display();
             break;
-        case 5:
+        case 6:
             del_front();
             break;
-        case 6:
+        case 7:
             del_end();
             break;
-        case 7:
+        case 8:
             del_any_point();
             break;
-        case 8 :
+        case 9 :
             exit(0);
         default :
             printf("inavlid choice ");
@@ -89,6 +93,28 @@ void add_end()
         h->link = new_node;
     }
 }
+
+void add_middle()
+{
+    int pos=((length()-1)/2),value,i;
+    printf("\nEnter the value to be added : ");
+    scanf("%d",&value);
+    n *new_node ,*h;
+    h = head;
+    new_node = (n *)malloc(sizeof(n));
+    new_node->data=value;
+    new_node->link=NULL;
+    if(pos>=1 && pos<=length())
+    {
+            for(i=1;i<pos;i++)
+                h = h->link;
+            new_node->link = h->link;
+            h->link = new_node;
+    }
+    else
+        printf("\nWRONG POSITION");
+}
+
 void add_any_point()
 {
     int pos,value,i;
